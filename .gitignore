@@ -37,3 +37,4 @@ profiles.json
 !frontend/src/assets/*.svg
 !frontend/src/assets/*.png
 !build/appicon.png
+!.github/assets/*.png
