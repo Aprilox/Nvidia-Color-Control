@@ -1,0 +1,39 @@
+# Wails Artifacts
+build/bin/
+build/windows/icon.ico
+build/windows/icon.png
+frontend/dist/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# Go
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+build_out.txt
+wails_err.txt
+profiles.json
+*.svg
+*.png
+!frontend/src/assets/*.svg
+!frontend/src/assets/*.png
+!build/appicon.png

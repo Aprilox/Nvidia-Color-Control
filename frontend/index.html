@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>NVIDIA Color Control</title>
+    <link rel="stylesheet" href="./src/style.css"/>
+</head>
+<body>
+    <!-- Custom titlebar -->
+    <div id="titlebar" style="--wails-draggable:drag">
+        <div class="titlebar-left">
+            <img src="./src/assets/download.svg" class="app-logo" alt="Logo"/>
+            <div class="titlebar-text">
+                <span class="titlebar-title">Color Control</span>
+                <span class="titlebar-subtitle">DISPLAY PROFILE MANAGER</span>
+            </div>
+        </div>
+        <div class="titlebar-right" style="--wails-draggable:no-drag">
+            <!-- Display selector -->
+            <select id="display-select" class="display-select" title="Écran cible"></select>
+            <div class="titlebar-buttons">
+                <button class="tb-btn tb-minimize" onclick="window.runtime.WindowMinimise()">─</button>
+                <button class="tb-btn tb-close" onclick="window.runtime.Quit()">✕</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-label">PROFILS (<span id="profile-count">0</span>)</span>
+            </div>
+            <div id="profile-list"></div>
+            <button id="btn-add-profile" class="btn-add">
+                <span class="plus-icon">+</span> Nouveau profil
+            </button>
+        </aside>
+
+        <!-- Main Panel -->
+        <main id="main-panel">
+            <div id="panel-header">
+                <div class="profile-badge">
+                    <span id="active-icon">🖥️</span>
+                    <div>
+                        <span id="active-name">Default</span>
+                        <span class="profile-tag">Profil personnalisé</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="btn-rename" class="btn-secondary">✏️ Renommer</button>
+                    <button id="btn-soft-reset" class="btn-secondary" title="Rétablir l'image d'usine sans modifier ce profil">↺ Rétab.</button>
+                    <button id="btn-apply" class="btn-primary">▶ APPLIQUER</button>
+                </div>
+            </div>
+
+            <div id="sliders-area">
+                <div class="sliders-col">
+                    <div class="slider-row" data-key="gamma">
+                        <label>GAMMA</label>
+                        <input type="range" min="50" max="300" value="100" class="slider slider-yellow"/>
+                        <span class="slider-value">1.00</span>
+                    </div>
+                    <div class="slider-row" data-key="brightness">
+                        <label>LUMINOSITÉ</label>
+                        <input type="range" min="0" max="100" value="50" class="slider slider-orange"/>
+                        <span class="slider-value">50%</span>
+                    </div>
+                    <div class="slider-row" data-key="contrast">
+                        <label>CONTRASTE</label>
+                        <input type="range" min="0" max="100" value="50" class="slider slider-cyan"/>
+                        <span class="slider-value">50%</span>
+                    </div>
+                    <div class="slider-row" data-key="vibrance">
+                        <label>ÉCLAT NUMÉRIQUE</label>
+                        <input type="range" min="0" max="100" value="50" class="slider slider-purple"/>
+                        <span class="slider-value vibrance-pct">50%</span>
+                    </div>
+
+                    <div class="separator"></div>
+
+                    <div class="slider-row" data-key="red">
+                        <label>ROUGE</label>
+                        <input type="range" min="0" max="200" value="100" class="slider slider-red"/>
+                        <span class="slider-value">1.00</span>
+                    </div>
+                    <div class="slider-row" data-key="green">
+                        <label>VERT</label>
+                        <input type="range" min="0" max="200" value="100" class="slider slider-green"/>
+                        <span class="slider-value">1.00</span>
+                    </div>
+                    <div class="slider-row" data-key="blue">
+                        <label>BLEU</label>
+                        <input type="range" min="0" max="200" value="100" class="slider slider-blue"/>
+                        <span class="slider-value">1.00</span>
+                    </div>
+                </div>
+
+                <div class="charts-col">
+                    <div class="chart-card">
+                        <span class="chart-label">COURBE GAMMA</span>
+                        <canvas id="gamma-curve" width="180" height="130"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <span class="chart-label">CANAUX RGB</span>
+                        <canvas id="rgb-bars" width="180" height="80"></canvas>
+                    </div>
+                    <button id="btn-reset" class="btn-reset">↺ Reset</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Rename modal -->
+    <div id="modal-overlay" class="hidden">
+        <div class="modal">
+            <h3>Renommer le profil</h3>
+            <input type="text" id="rename-input" placeholder="Nom du profil" maxlength="30"/>
+            <div class="modal-row">
+                <label>Icône :</label>
+                <div id="icon-picker" class="icon-picker">
+                    <span class="icon-opt selected" data-icon="🖥️">🖥️</span>
+                    <span class="icon-opt" data-icon="🎮">🎮</span>
+                    <span class="icon-opt" data-icon="🎬">🎬</span>
+                    <span class="icon-opt" data-icon="🌙">🌙</span>
+                    <span class="icon-opt" data-icon="📷">📷</span>
+                    <span class="icon-opt" data-icon="🎨">🎨</span>
+                    <span class="icon-opt" data-icon="⚡">⚡</span>
+                    <span class="icon-opt" data-icon="🔥">🔥</span>
+                    <span class="icon-opt" data-icon="💎">💎</span>
+                    <span class="icon-opt" data-icon="🌅">🌅</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn-secondary">Annuler</button>
+                <button id="modal-save" class="btn-primary">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation modal -->
+    <div id="confirm-overlay" class="hidden">
+        <div class="modal confirm-modal">
+            <h3>Conserver ces paramètres ?</h3>
+            <p>L'affichage sera réinitialisé dans <span id="confirm-timer">7</span> secondes si vous ne confirmez pas.</p>
+            <div class="confirm-progress-container">
+                <div id="confirm-progress-bar"></div>
+            </div>
+            <div class="modal-actions">
+                <button id="confirm-cancel" class="btn-secondary">Réinitialiser maintenant</button>
+                <button id="confirm-ok" class="btn-primary">Conserver les modifications</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./src/main.js" type="module"></script>
+</body>
+</html>
