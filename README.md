@@ -1,40 +1,46 @@
 # 🖥️ Nvidia Color Control
 
-Un gestionnaire de profils d'affichage moderne et fluide pour Windows, conçu spécialement pour les utilisateurs de cartes graphiques NVIDIA. 
+![App Screenshot](.github/assets/home.png)
 
-Cette application permet de contourner les limitations du Panneau de Configuration NVIDIA en offrant une interface rapide, esthétique et des fonctionnalités de sécurité pour vos réglages de couleurs.
+A modern, fluid display profile manager for Windows, specifically designed for NVIDIA graphics card users. 
 
-## ✨ Fonctionnalités
+This application allows you to bypass NVIDIA Control Panel limitations by offering a fast, aesthetic interface and safety features for your color settings.
 
-- **Gestion de Profils** : Créez, nommez et personnalisez plusieurs profils (Gaming, Film, Nuit, etc.).
-- **Contrôle Précis** : Ajustez le Gamma, la Luminosité, le Contraste et l'Éclat Numérique (Digital Vibrance).
-- **Éclat Numérique (Digital Vibrance)** : Mapping 1:1 parfait avec les paramètres NVIDIA (0-100%).
-- **Bouton Rétablir (Soft Reset)** : Remettez instantanément l'écran aux paramètres d'usine sans perdre vos réglages dans l'application.
-- **Sécurité (Confirmation)** : Un délai de confirmation de 7 secondes après application pour éviter les écrans noirs ou illisibles.
-- **Interface Moderne** : Design sombre (Glassmorphism) avec animations fluides et visualisation de la courbe Gamma.
+## ✨ Features
 
-## 🚀 Installation & Utilisation
+- **Profile Management**: Create, name, and customize multiple profiles (Gaming, Movie, Night, etc.).
+- **Precise Control**: Adjust Gamma, Brightness, Contrast, and Digital Vibrance.
+- **Digital Vibrance**: Perfect 1:1 mapping with NVIDIA settings (0-100%).
+- **Soft Reset Button**: Side-by-side with Apply, it instantly restores factory defaults without losing your app slider positions.
+- **Safety Confirmation**: A 7-second confirmation delay after applying changes to prevent black or unreadable screens.
+- **Modern UI**: Dark glassmorphism design with smooth animations and Gamma curve visualization.
 
-1. Téléchargez l'exécutable `nvidia-color-control.exe`.
-2. Lancez l'application (aucune installation requise).
-3. Sélectionnez votre écran en haut de la fenêtre.
-4. Ajustez les curseurs et cliquez sur **APPLIQUER**.
-5. Confirmez les changements dans les 7 secondes pour les conserver.
+## 🚀 Installation & Usage
 
-## 🛠️ Développement (Tech Stack)
+1. Download the `nvidia-color-control.exe` executable.
+2. Launch the application (no installation required).
+3. Select your display at the top.
+4. Adjust sliders and click **APPLY**.
+5. Confirm changes within 7 seconds to keep them.
 
-Le projet est construit avec :
-- **Backend** : [Go](https://go.dev/) avec le framework [Wails v2](https://wails.io/).
-- **Frontend** : HTML5 / Vanilla CSS / JavaScript (ES6+).
-- **Utilitaires** : Intégration de commandes bas niveau pour le contrôle Gamma et NVAPI.
+> [!NOTE]
+> Your profiles are automatically saved in `%APPDATA%\NvidiaColorControl\profiles.json`.  
+> You can backup or move this file to keep your settings across different computers.
 
-### Build du projet
+## 🛠️ Tech Stack
 
-Pour compiler l'application vous-même :
+Built with:
+- **Backend**: [Go](https://go.dev/) + [Wails v2](https://wails.io/).
+- **Frontend**: HTML5 / Vanilla CSS / JavaScript (ES6+).
+- **Low-level**: Custom integrations for Gamma and NVAPI control.
+
+### Build Instructions
+
+To compile the application yourself:
 ```bash
 wails build
 ```
 
-## ⚖️ Licence
+## ⚖️ License
 
-Ce projet est destiné à un usage personnel. L'utilisation est à vos propres risques concernant les réglages matériels de vos écrans.
+This project is intended for personal use. Use at your own risk regarding your display hardware settings.
